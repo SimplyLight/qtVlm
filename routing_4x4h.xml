@@ -1,0 +1,35 @@
+<runs>
+	<run>
+		<clearAllRoutes>true</clearAllRoutes>
+		<closeAllGribs>true</closeAllGribs>
+
+		<gribSlot1>C:/Program Files/qtVlm/grib/GFS_V2_NOAA_20261008_06Z_72hs.grib2</gribSlot1>
+		<gribSlot2></gribSlot2>
+		<gribSlot3></gribSlot3>
+
+		<routingName>routingAversB</routingName>
+		<startPoint>A</startPoint>
+		<endPoint>B</endPoint>
+		<startDate>10/09/2026</startDate>
+		<startTime>06:00:00</startTime>
+
+		<noRouteOutsideScreen>false</noRouteOutsideScreen>
+
+		<multiRouting>true</multiRouting>
+		<generateRoutes>4</generateRoutes>
+		<stepDays>0</stepDays>
+		<stepHours>4</stepHours>
+		<stepMins>0</stepMins>
+
+		<autoSimpOptim>true</autoSimpOptim>
+
+		<comparatorCsvFile>resumeRoutingsAversB.csv</comparatorCsvFile>
+	</run>
+
+	<!-- Optionnel : décommenter pour fermer qtVlm à la fin
+	
+	-->
+	<run>
+		<quit>true</quit>
+	</run>
+</runs>
