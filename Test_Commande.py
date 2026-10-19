@@ -9,9 +9,21 @@ import shutil
 import os
 from pathlib import Path
 
-# --- À adapter -------------------------------------------------------------
+""" # --- Mon PC -------------------------------------------------------------
 DOSSIER_QTVLM = Path(r"C:\Program Files\qtVlm")
-QTVLM_EXE = r"C:/Program Files/qtVlm/qtVlm.exe"
+QTVLM_EXE = r"C:\Program Files\qtVlm\qtVlm.exe"
+DOSSIER = Path(__file__).parent  # dossier des fichiers xml
+BATCH_ROUTING = DOSSIER / "routing_4x4h.xml"
+BATCH_EXPORT = DOSSIER / "export_route.xml"  # réécrit à chaque lancement
+DOSSIER_EXPORT = str(DOSSIER / "Sorties")  # dossier de sortie des fichiers exportés
+FORMAT_EXPORT = "csv"  # csv, gpx, kml ou json
+NOM_ROUTE = "routingAversB_001 09 oct.-14:00"  # input("\nNom exact de la route à exporter : ").strip()
+NOM_FICHIER_EXPORT = "routingAversB_001_09_oct.-14_00.csv"  # Nom du fichier exporté telle que créé par qtVlm, à copier dans le dossier d'export.
+# ---------------------------------------------------------------------------^ """
+
+# --- PC HEAI-FR -------------------------------------------------------------
+DOSSIER_QTVLM = Path(r"C:\Users\erik.grenache\Documents\qtVlm")
+QTVLM_EXE = r"C:\Program Files\qtVlm\qtVlm.exe"
 DOSSIER = Path(__file__).parent  # dossier des fichiers xml
 BATCH_ROUTING = DOSSIER / "routing_4x4h.xml"
 BATCH_EXPORT = DOSSIER / "export_route.xml"  # réécrit à chaque lancement
@@ -34,10 +46,10 @@ def ecrire_batch_export(nom_route: str) -> None:
 	<run>
 		<exportFolder>{DOSSIER_EXPORT}</exportFolder>
 	</run>
-	<run>
+	<!-- <run>
 		<exportRoute>{nom_route}</exportRoute>
 		<exportFormat>{FORMAT_EXPORT}</exportFormat>
-	</run>
+	</run> -->
 	<run>
 		<quit>true</quit>
 	</run>

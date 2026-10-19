@@ -1,11 +1,11 @@
 <runs>
 	<run>
-		<exportFolder>C:/Users/erikg/Documents/HEIA/Master/TM/01.Logiciel/qtVlm/Sorties</exportFolder>
+		<exportFolder>c:\Users\erik.grenache\Documents\qtVlm\Sorties</exportFolder>
 	</run>
-	<run>
+	<!-- <run>
 		<exportRoute>routingAversB_001 09 oct.-14:00</exportRoute>
 		<exportFormat>csv</exportFormat>
-	</run>
+	</run> -->
 	<run>
 		<quit>true</quit>
 	</run>
