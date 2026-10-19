@@ -77,7 +77,7 @@ MAX_DAYS_BACK=3
 # Horizonte deseado en horas.
 # El modelo GFS 0.25° tiene un límite máximo de 384 horas (16 días).
 # Valores permitidos: 0 - 384
-MAX_FORECAST=384  # 3 días (configurable)
+MAX_FORECAST=72  # 3 días (configurable)
 
 # --- VALIDACIÓN DEL HORIZONTE ---
 # El modelo GFS 0.25° no proporciona archivos más allá de 384 horas.
@@ -122,10 +122,17 @@ EXPECTED_FILES=${#HOURS[@]}
 # Coordenadas geográficas para el recorte del GRIB.
 # Por defecto cubre Sudamérica hasta el norte de Argentina.
 # Los valores negativos indican Oeste (longitud) y Sur (latitud).
+# Lac de Neuchâtel
+WEST="5"    # Límite oeste (longitud) - Océano Pacífico
+EAST="8"    # Límite este (longitud) - Océano Atlántico
+NORTH="48"   # Límite norte (latitud) - Inicio de la Patagonia argentina
+SOUTH="46"   # Límite sur (latitud) - Cabo de Hornos
+
+"""# Atlantique Nord 
 WEST="-60"    # Límite oeste (longitud) - Océano Pacífico
 EAST="-16"    # Límite este (longitud) - Océano Atlántico
 NORTH="32"   # Límite norte (latitud) - Inicio de la Patagonia argentina
-SOUTH="10"   # Límite sur (latitud) - Cabo de Hornos
+SOUTH="10"   # Límite sur (latitud) - Cabo de Hornos"""
 
 # ------------------------------------------------------------
 # CONFIGURACIÓN DE OLAS (WW3)
@@ -155,7 +162,10 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 # Directorio de GRIB de XyGrib (donde se guarda el archivo final)
-XYGRIB_DIR="${HOME}/.xygrib/grib"
+""XYGRIB_DIR="${HOME}/.xygrib/grib"""
+# Ruta para Git Bash: C:\Users\erik.grenache\Documents\qtVlm\Grib_Files
+#Cas pour PC HEIA-FR 
+XYGRIB_DIR="/c/Users/erik.grenache/Documents/qtVlm/Grib_Files"
 
 # NOTA: Los nombres de los archivos finales (OUTPUT, WAVE_OUTPUT, COMBINED_OUTPUT)
 # se definen dinámicamente más abajo una vez detectados USED_DATE y BEST_CYCLE.

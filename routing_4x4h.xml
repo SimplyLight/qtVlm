@@ -3,15 +3,17 @@
 		<clearAllRoutes>true</clearAllRoutes>
 		<closeAllGribs>true</closeAllGribs>
 
-		<gribSlot1>C:/Program Files/qtVlm/grib/GFS_V2_NOAA_20261008_06Z_72hs.grib2</gribSlot1>
+		<!-- <gribSlot1>C:/Program Files/qtVlm/grib/GFS_V2_NOAA_20261008_06Z_72hs.grib2</gribSlot1>	-->
+		<gribSlot1>C:\Users\erik.grenache\Documents\qtVlm\Grib_Files\GFS_WW3_NOAA_20261019_00Z_72hs.grib2</gribSlot1>
+
 		<gribSlot2></gribSlot2>
 		<gribSlot3></gribSlot3>
 
 		<routingName>routingAversB</routingName>
 		<startPoint>A</startPoint>
 		<endPoint>B</endPoint>
-		<startDate>10/09/2026</startDate>
-		<startTime>06:00:00</startTime>
+		<startDate>19/09/2026</startDate>
+		<startTime>16:00:00</startTime>
 
 		<noRouteOutsideScreen>false</noRouteOutsideScreen>
 
@@ -27,9 +29,9 @@
 	</run>
 
 	<!-- Optionnel : décommenter pour fermer qtVlm à la fin
-	
-	-->
 	<run>
 		<quit>true</quit>
 	</run>
+	-->
+	
 </runs>
