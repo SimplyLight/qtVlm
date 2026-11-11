@@ -7,7 +7,9 @@ authors = [
     { name = "SimplyLight", email = "330010034+SimplyLight@users.noreply.github.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pandas>=3.1.1",
+]
 
 [project.scripts]
 qtvlm = "qtvlm:main"

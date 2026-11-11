@@ -1,12 +1,9 @@
 <runs>
-	<run>
-		<exportFolder>c:\Users\erik.grenache\Documents\qtVlm\Sorties</exportFolder>
-	</run>
-	<!-- <run>
-		<exportRoute>routingAversB_001 09 oct.-14:00</exportRoute>
-		<exportFormat>csv</exportFormat>
-	</run> -->
-	<run>
-		<quit>true</quit>
-	</run>
-</runs>
+        <run>
+            <exportFolder>c:\Users\erik.grenache\Documents\qtVlm\Sorties</exportFolder>
+            <exportRoutesLogs>true</exportRoutesLogs>
+        </run>
+        <run>
+            <quit>true</quit>
+        </run>
+    </runs>
