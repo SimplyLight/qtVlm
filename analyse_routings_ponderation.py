@@ -1,6 +1,7 @@
 import pandas as pd
+from pathlib import Path
 
-FICHIER = "resumeRoutingsAversB.csv"
+FICHIER = Path(__file__).parent / "Sorties" / "resumeRoutingsAversB.csv"
 
 COL_NOM = "Nom"
 COL_DUREE = "Durée (brut)"

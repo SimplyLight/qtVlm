@@ -2,13 +2,13 @@
     <run>
         <clearAllRoutes>true</clearAllRoutes>
         <closeAllGribs>true</closeAllGribs>
-        <gribSlot1>c:\Users\erik.grenache\Documents\qtVlm\Grib_Files\GFS_WW3_NOAA_20261019_00Z_72hs.grib2</gribSlot1>
+        <gribSlot1>c:\Users\erik.grenache\Documents\qtVlm\Grib_Files\GFS_NOAA_20261111_12Z_24hs.grib2</gribSlot1>
         <gribSlot2></gribSlot2>
         <gribSlot3></gribSlot3>
         <routingName>routingAversB</routingName>
         <startPoint>A</startPoint>
         <endPoint>B</endPoint>
-        <startDate>10/20/2026</startDate>
+        <startDate>11/11/2026</startDate>
         <startTime>16:00:00</startTime>
         <noRouteOutsideScreen>false</noRouteOutsideScreen>
         <multiRouting>true</multiRouting>

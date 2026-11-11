@@ -45,7 +45,7 @@ GRIB_SLOT_3 = ""
 ROUTING_NAME = "routingAversB"
 START_POINT = "A"
 END_POINT = "B"
-START_DATE = "10/20/2026"
+START_DATE = "11/11/2026" #Attention : la date doit être au format MM/DD/YYYY pour que qtVlm l'accepte correctement
 START_TIME = "16:00:00"
 NO_ROUTE_OUTSIDE_SCREEN = False
 MULTI_ROUTING = True
@@ -62,16 +62,70 @@ QUIT_AFTER_ROUTING = True
 ####### Défnition des fonctions ########
 
 def obtenir_plage_meteo() -> tuple[datetime, datetime] | None:
+    return obtenir_plage_fichier_meteo(GRIB_SLOT_1)
+
+
+def obtenir_plage_fichier_meteo(fichier: Path) -> tuple[datetime, datetime] | None:
     correspondance = re.search(
-        r"(?P<date>\d{8}).*?(?P<heures>\d+)hs",
-        GRIB_SLOT_1.name,
+        r"(?P<date>\d{8})(?:_(?P<cycle>\d{2})Z)?.*?(?P<heures>\d+)hs",
+        fichier.name,
         re.IGNORECASE,
     )
     if correspondance is None:
         return None
-    debut_meteo = datetime.strptime(correspondance["date"], "%Y%m%d")
+    debut_meteo = datetime.strptime(
+        f"{correspondance['date']}{correspondance['cycle'] or '00'}",
+        "%Y%m%d%H",
+    )
     fin_meteo = debut_meteo + timedelta(hours=int(correspondance["heures"]))
     return debut_meteo, fin_meteo
+
+
+def trouver_grib_compatible() -> Path | None:
+    global GRIB_SLOT_1
+
+    try:
+        debut_routage = datetime.strptime(
+            f"{START_DATE} {START_TIME}", "%m/%d/%Y %H:%M:%S"
+        )
+        if GENERATE_ROUTES < 1 or STEP_DAYS < 0 or STEP_HOURS < 0 or STEP_MINUTES < 0:
+            return None
+        intervalle = timedelta(
+            days=STEP_DAYS,
+            hours=STEP_HOURS,
+            minutes=STEP_MINUTES,
+        )
+        dernier_depart = debut_routage + (GENERATE_ROUTES - 1) * intervalle
+    except ValueError:
+        return None
+
+    fichiers_compatibles: list[tuple[datetime, int, int, Path]] = []
+    for fichier in GRIB_SLOT_1.parent.glob("GFS_*.grib2"):
+        try:
+            plage = obtenir_plage_fichier_meteo(fichier)
+        except ValueError:
+            continue
+        if plage is None:
+            continue
+        debut_meteo, fin_meteo = plage
+        if debut_meteo <= debut_routage and fin_meteo >= dernier_depart:
+            duree = int(re.search(r"(\d+)hs", fichier.name, re.IGNORECASE).group(1))
+            est_combine = int(fichier.name.startswith("GFS_WW3_"))
+            fichiers_compatibles.append(
+                (debut_meteo, duree, est_combine, fichier)
+            )
+
+    if not fichiers_compatibles:
+        return None
+
+    # Privilégie le cycle le plus récent, puis le forecast le plus court et le fichier combiné.
+    fichier = max(
+        fichiers_compatibles,
+        key=lambda element: (element[0], -element[1], element[2]),
+    )[3]
+    GRIB_SLOT_1 = fichier
+    print(f"Fichier météo correspondant trouvé : {GRIB_SLOT_1.name}")
+    return fichier
 
 
 def verifier_donnees_meteo() -> bool:
@@ -212,16 +266,8 @@ def telecharger_donnees_meteo(heures: int) -> bool:
         resultat = subprocess.run(
             [str(bash), chemin_git_bash(script_temporaire)],
             cwd=TELECHARGEUR_METEO.parent,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
             check=False,
         )
-        if resultat.stdout:
-            print(resultat.stdout, end="")
-        if resultat.stderr:
-            print(resultat.stderr, file=sys.stderr, end="")
         if resultat.returncode != 0:
             print(f"Erreur : le téléchargement a échoué (code {resultat.returncode}).")
             return False
@@ -305,6 +351,7 @@ def demander_correction_date() -> bool:
 
 
 def preparer_donnees_meteo() -> bool:
+    trouver_grib_compatible()
     if verifier_donnees_meteo():
         return True
 
