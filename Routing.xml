@@ -12,12 +12,11 @@
         <startTime>16:00:00</startTime>
         <noRouteOutsideScreen>false</noRouteOutsideScreen>
         <multiRouting>true</multiRouting>
-        <generateRoutes>5</generateRoutes>
+        <generateRoutes>4</generateRoutes>
         <stepDays>0</stepDays>
-        <stepHours>1</stepHours>
+        <stepHours>4</stepHours>
         <stepMins>0</stepMins>
         <autoSimpOptim>true</autoSimpOptim>
-        <takeScreenShot>c:\Users\erik.grenache\Documents\qtVlm\Sorties\screenshot_routing.png</takeScreenShot>
         <comparatorCsvFile>c:\Users\erik.grenache\Documents\qtVlm\Sorties\resumeRoutingsAversB.csv</comparatorCsvFile>
         
     </run>

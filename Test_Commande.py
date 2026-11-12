@@ -49,9 +49,9 @@ START_DATE = "10/20/2026" #Attention : la date doit être au format MM/DD/YYYY p
 START_TIME = "16:00:00"
 NO_ROUTE_OUTSIDE_SCREEN = False
 MULTI_ROUTING = True
-GENERATE_ROUTES = 5
+GENERATE_ROUTES = 4
 STEP_DAYS = 0
-STEP_HOURS = 1
+STEP_HOURS = 4
 STEP_MINUTES = 0
 AUTO_SIMP_OPTIM = True
 COMPARATOR_CSV_FILE = DOSSIER / "Sorties" / "resumeRoutingsAversB.csv"
@@ -413,7 +413,7 @@ def ecrire_batch_routing() -> None:
         <stepMins>{STEP_MINUTES}</stepMins>
         <autoSimpOptim>{str(AUTO_SIMP_OPTIM).lower()}</autoSimpOptim>
         <comparatorCsvFile>{escape(str(COMPARATOR_CSV_FILE))}</comparatorCsvFile>
-        <takeScreenShot>{escape(str(SCREENSHOT_FILE))}</takeScreenShot>
+        
     </run>
     <run>
         <quit>{str(QUIT_AFTER_ROUTING).lower()}</quit>
@@ -422,6 +422,7 @@ def ecrire_batch_routing() -> None:
 """
     BATCH_ROUTING.write_text(xml, encoding="utf-8")
 
+#<takeScreenShot>{escape(str(SCREENSHOT_FILE))}</takeScreenShot>
 
 def ecrire_batch_export(directory_route: str) -> None: # écrit le fichier export_route.xml pour exporter la route choisie
     xml = f"""<runs>
