@@ -14,7 +14,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 """ # --- Mon PC -------------------------------------------------------------
-QTVLM_EXE = r"C:\Program Files\qtVlm\qtVlm.exe"
+QTVLM_EXE = r"C:\\Program Files\\qtVlm\\qtVlm.exe"
 DOSSIER = Path(__file__).parent  # dossier des fichiers xml
 BATCH_ROUTING = DOSSIER / "routing_4x4h.xml"
 BATCH_EXPORT = DOSSIER / "export_route.xml"  # réécrit à chaque lancement
@@ -45,21 +45,31 @@ GRIB_SLOT_3 = ""
 ROUTING_NAME = "routingAversB"
 START_POINT = "A"
 END_POINT = "B"
-START_DATE = "11/11/2026" #Attention : la date doit être au format MM/DD/YYYY pour que qtVlm l'accepte correctement
+START_DATE = "10/20/2026" #Attention : la date doit être au format MM/DD/YYYY pour que qtVlm l'accepte correctement
 START_TIME = "16:00:00"
 NO_ROUTE_OUTSIDE_SCREEN = False
 MULTI_ROUTING = True
-GENERATE_ROUTES = 4
+GENERATE_ROUTES = 5
 STEP_DAYS = 0
-STEP_HOURS = 4
+STEP_HOURS = 1
 STEP_MINUTES = 0
 AUTO_SIMP_OPTIM = True
 COMPARATOR_CSV_FILE = DOSSIER / "Sorties" / "resumeRoutingsAversB.csv"
+SCREENSHOT_FILE = DOSSIER / "Sorties" / "screenshot_routing.png"
 QUIT_AFTER_ROUTING = True
 
 # ---------------------------------------------------------------------------
 
+
+
+
+
 ####### Défnition des fonctions ########
+
+
+
+
+# ---------------------- Fonctions pour vérifier et télécharger les données météo ----------------------
 
 def obtenir_plage_meteo() -> tuple[datetime, datetime] | None:
     return obtenir_plage_fichier_meteo(GRIB_SLOT_1)
@@ -109,7 +119,10 @@ def trouver_grib_compatible() -> Path | None:
             continue
         debut_meteo, fin_meteo = plage
         if debut_meteo <= debut_routage and fin_meteo >= dernier_depart:
-            duree = int(re.search(r"(\d+)hs", fichier.name, re.IGNORECASE).group(1))
+            correspondance = re.search(r"(\d+)hs", fichier.name, re.IGNORECASE)
+            if correspondance is None:
+                continue
+            duree = int(correspondance.group(1))
             est_combine = int(fichier.name.startswith("GFS_WW3_"))
             fichiers_compatibles.append(
                 (debut_meteo, duree, est_combine, fichier)
@@ -218,6 +231,8 @@ def demander_heures_prevision() -> int | None:
         print("La durée doit être comprise entre 1 et 384 heures.")
 
 
+# --------------------- Téléchargement des données météo avec xygrib-noaa.sh ----------------------
+
 def telecharger_donnees_meteo(heures: int) -> bool:
     global GRIB_SLOT_1
 
@@ -294,6 +309,7 @@ def telecharger_donnees_meteo(heures: int) -> bool:
         return True
 
 
+#--------------------- Fonctions pour interagir avec l'utilisateur ----------------------
 def demander_reponse_oui_non(question: str) -> bool:
     while True:
         reponse = input(f"{question} (oui/non) : ").strip().lower()
@@ -304,6 +320,8 @@ def demander_reponse_oui_non(question: str) -> bool:
         print("Répondez par oui ou non.")
 
 
+
+#--------------------- Fonctions pour corriger la date de départ ----------------------
 def demander_correction_date() -> bool:
     global START_DATE
 
@@ -395,6 +413,7 @@ def ecrire_batch_routing() -> None:
         <stepMins>{STEP_MINUTES}</stepMins>
         <autoSimpOptim>{str(AUTO_SIMP_OPTIM).lower()}</autoSimpOptim>
         <comparatorCsvFile>{escape(str(COMPARATOR_CSV_FILE))}</comparatorCsvFile>
+        <takeScreenShot>{escape(str(SCREENSHOT_FILE))}</takeScreenShot>
     </run>
     <run>
         <quit>{str(QUIT_AFTER_ROUTING).lower()}</quit>
